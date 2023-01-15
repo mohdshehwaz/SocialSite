@@ -1,3 +1,9 @@
 module.exports.home = (req,res) => {
-    return res.end('<h1>Express is up for Codeier</h1>');
+    return res.render('home',{
+        title:"Home is "
+    });
 };
+module.exports.post = (req,res) => {
+    console.log(req.body);
+    res.end("Post successfully");
+}
