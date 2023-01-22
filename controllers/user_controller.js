@@ -18,6 +18,9 @@ module.exports.profile = (req,res) => {
 };
 // render the signup page
 module.exports.signup = (req,res) =>{
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
     return res.render('user_sign_up',{
         title:"Codiel | Sign Up"
     });
@@ -26,6 +29,9 @@ module.exports.signup = (req,res) =>{
 // render the sign up page
 
 module.exports.signIn = (req,res) => {
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
     return res.render('user_signin',{
         title:"Codiel | Sign In"
     });
@@ -57,7 +63,6 @@ module.exports.create = (req,res) => {
         else{
             return res.redirect('back');
         }
-
     });
 
 }
@@ -67,31 +72,44 @@ module.exports.createSession = (req,res) =>{
     // steps to authenticate
 
     // find the user
-    User.findOne({email:req.body.email},(err,user) => {
-        if(err){
-            console.log("error in creating user while signing up");
-            return;   
-        }
-        //handle user found
-        if(user){
-            if(user.password != req.body.password){
-                return res.redirect('back');
-            }
-            res.cookie('user_id',user.id);
-            return res.redirect('/users/profile');
-        }
-        else{
-            return res.redirect('back');
-        }
+    // User.findOne({email:req.body.email},(err,user) => {
+    //     if(err){
+    //         console.log("error in creating user while signing up");
+    //         return;   
+    //     }
+    //     //handle user found
+    //     if(user){
+    //         if(user.password != req.body.password){
+    //             return res.redirect('back');
+    //         }
+    //         res.cookie('user_id',user.id);
+    //         return res.redirect('/users/profile');
+    //     }
+    //     else{
+    //         return res.redirect('back');
+    //     }
         // handle mismatching password which don't match
     
 
         // handle session creation
 
-    })
+    // })
     
-
+    return res.redirect('/');
     
 
     // handle user not found
+}
+
+module.exports.destroySession = (req,res,next) => {
+    console.log("In the destroyed function of the express code hihihihi ijnsk")
+
+    req.logout((err) => {
+        if(err){
+            console.log("Error in logout ")
+            return next(err);
+        }
+        return res.redirect('/');
+    });
+    
 }
