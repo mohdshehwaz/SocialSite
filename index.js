@@ -7,15 +7,17 @@ const db = require('./config/mongoose');
 // use for session cookie
 const session = require('express-session');
 const passport = require('passport');
-const passportLocat =  require('./config/passport-loca-strategy');
+
+const passportLocat =  require('./config/passport-local-strategy');
+const passportJWT = require('./config/passport-jwt-strategy');
 const MongoStore = require('connect-mongo');
-
-
 
 app.use(express.urlencoded());
 app.use(cookieParser());
 
 app.use(express.static('./assets'));
+///make the uploads path visible  to the user
+app.use('/uploads',express.static(__dirname + '/uploads'));
 
 app.use(expressLayouts);
 // extract styles and scripts of subpages into layout

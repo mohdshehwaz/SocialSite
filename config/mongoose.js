@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://127.0.0.1:27017/AppData');
+
 const db = mongoose.connection;
-db.on('error',console.error.bind(console,'error connecting to the database'));
 
-db.once('open',function(){
-    console.log("Connected to the database to mongodb");
+db.on('error', console.error.bind(console, "Error connecting to MongoDB"));
 
-})
+
+db.once('open', function(){
+    console.log('Connected to Database :: MongoDB');
+});
+
 
 module.exports = db;
